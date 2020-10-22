@@ -14,7 +14,6 @@ func startProfile(url string) {
 	}
 	request := createGetRequest(url)
 	fmt.Fprintf(conn, request)
-	//	fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
 	status, err := bufio.NewReader(conn).ReadString('\n')
 	if err != nil {
 		panic(err)
@@ -27,7 +26,7 @@ func echoHelp() {
 }
 
 func main() {
-	url := flag.String("url", "localhost", "url to profile")
+	url := flag.String("url", "cloudflare.com", "url to profile")
 	help := flag.Bool("help", false, "print this message")
 	flag.Parse()
 	if *help {
