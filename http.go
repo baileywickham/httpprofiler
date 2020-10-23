@@ -72,7 +72,6 @@ func createGetRequest(u url.URL) string {
 		RequestHeaders: "",
 		EntityHeaders:  "",
 		Body:           "",
-		Size:           0,
 	}
 	return r.String()
 }
