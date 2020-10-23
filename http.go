@@ -63,16 +63,20 @@ func (r *HTTPRequest) String() string {
 	return s
 }
 
-func createGetRequest(u url.URL) string {
+func createGetRequest(u url.URL, keepAlive bool) string {
 	r := HTTPRequest{
 		HTTPMethod:     "GET",
 		RequestTarget:  u.RequestURI(), //url,
 		HTTPVersion:    "HTTP/1.0",
-		GeneralHeaders: fmt.Sprintf("Host: %s", u.Hostname()),
+		GeneralHeaders: fmt.Sprintf("Host: %s\n", u.Hostname()),
 		RequestHeaders: "",
 		EntityHeaders:  "",
 		Body:           "",
 	}
+	if keepAlive {
+		r.GeneralHeaders += "Connection: Keep-Alive"
+	}
+	fmt.Println(r.GeneralHeaders)
 	return r.String()
 }
 
@@ -85,6 +89,10 @@ func readResponse(conn net.Conn) HTTPResponse {
 
 	startline := strings.Fields(_startline)
 
+	if len(startline) < 3 {
+		panic("Malformated startline")
+	}
+
 	rsp := HTTPResponse{
 		HTTPVersion: startline[0],
 		StatusCode:  startline[1],
@@ -95,19 +103,16 @@ func readResponse(conn net.Conn) HTTPResponse {
 		if err != nil {
 			panic(err)
 		}
-		if line == "\r\n" {
+		if line == "\r\n" || line == "" || line == "\r" {
 			break
 		}
-		//if strings.Contains(line, "Content-Length:") {
-		//	length := strings.Fields(line)[1]
-		//	println(length)
-		//}
 		rsp.GeneralHeaders += line
 	}
 	body, err := ioutil.ReadAll(r)
 	if err != nil {
 		panic(err)
 	}
+
 	rsp.Size = len(body)
 	rsp.Body = string(body)
 	return rsp
