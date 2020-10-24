@@ -47,7 +47,7 @@ Passing in -keepalive attempts to use a single tcp connection for all http reque
 ### Why are there no tests?
 Testing this program would be a little difficult. I could test that I am getting a response, and that it is well formatted, but this is testing the server as much as my program. I also don't really want to test the output, so I would have to rewrite to make the correct functions exposed which is more work than it's worth for this. 
 
-### Why does the size on the response only include the body, not the headers?
+### Why does the size in the profile only include the body, not the headers?
 When looking at a response, I think the size should only really refer to the size of the body because the headers change with the request, or the method of which you are making the request. I don't think it makes sense to have `curl` and `httpprofiler` return different sizes on the same static webpage. 
 
 
