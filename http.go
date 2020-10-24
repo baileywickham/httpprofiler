@@ -3,9 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -80,6 +81,7 @@ func createGetRequest(u url.URL, keepAlive bool) string {
 }
 
 func readResponse(conn net.Conn) HTTPResponse {
+	var l int
 	r := bufio.NewReader(conn)
 	_startline, err := r.ReadString('\n')
 	if err != nil {
@@ -105,14 +107,20 @@ func readResponse(conn net.Conn) HTTPResponse {
 		if line == "\r\n" || line == "" || line == "\r" {
 			break
 		}
+		if strings.Contains(line, "Content-Length: ") {
+			// hack to get content length
+			l, _ = strconv.Atoi(strings.Fields(line)[1])
+		}
 		rsp.GeneralHeaders += line
 	}
-	body, err := ioutil.ReadAll(r)
+	body := make([]byte, l)
+	_, err = io.ReadFull(r, body)
+	//body, err := ioutil.ReadAll(r)
 	if err != nil {
 		panic(err)
 	}
 
-	rsp.Size = len(body)
+	rsp.Size = l
 	rsp.Body = string(body)
 	return rsp
 }
