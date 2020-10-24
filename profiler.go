@@ -154,7 +154,7 @@ func evaluate(profs []Profile, u url.URL) {
 	fmt.Printf("Mean time: %dms\n", time.Duration(mean).Milliseconds())
 	median, _ := stats.Median(timesFloat)
 	fmt.Printf("Median time: %dms\n", time.Duration(median).Milliseconds())
-	fmt.Printf("Percent successful: %.2f\n", float64(successes)/float64(*n))
+	fmt.Printf("Percent successful: %.2f\n", 100*float64(successes)/float64(*n))
 	fmt.Printf("Non 2xx error codes: %v\n", errCodes)
 	minSize, maxSize := MinMaxInt(sizes)
 	fmt.Printf("Smallest response body: %d bytes\n", minSize)
