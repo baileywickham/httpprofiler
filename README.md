@@ -51,3 +51,11 @@ Testing this program would be a little difficult. I could test that I am getting
 When looking at a response, I think the size should only really refer to the size of the body because the headers change with the request, or the method of which you are making the request. I don't think it makes sense to have `curl` and `httpprofiler` return different sizes on the same static webpage. 
 
 
+## Findings
+![cloudflare/example.com](cloudflare.png)
+
+Here we test against `cloudflare.com` and `example.com`. Looking at the cloudflare response you will see something that you will see often with this program: failure on a 301 response. This is because most of the modern internet forces redirects from http->https. This is a good thing! However, my program doesn't yet support https, and a 301 response is not a 2xx response, so it is counted as a failure. `example.com` on the otherhand does not redirect to https and returns as you would expect. This matches what you would expect from a profile. 
+
+One thing that would be interesting to add would be a stddev mesaurement, to calculate for variation. 
+
+
