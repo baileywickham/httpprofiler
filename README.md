@@ -58,4 +58,12 @@ Here we test against `cloudflare.com` and `example.com`. Looking at the cloudfla
 
 One thing that would be interesting to add would be a stddev mesaurement, to calculate for variation. 
 
+Using mean times on 10 responses:
+- `google.com`:  43ms
+- `baileywickham.com` (github pages): 30ms
+- `bw.baileywickham.workers.dev`: 76ms
+- `localhost`: 4ms
+
+Localhost is obviously the fastest, as to be expected. My site is pretty quick at 30ms, google a little slower. It looks like the cloudflare page is the slowest.
+
 
