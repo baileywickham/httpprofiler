@@ -16,6 +16,8 @@ Usage of ./httpprofiler:
 ![bw.baileywickham.workers.dev](workers.png)
 
 ## Use
+A Dockerfile is provided which runs a default request
+
 Install the stats package:
 ```bash
 go get github.com/montanaflynn/stats
@@ -34,12 +36,12 @@ go bulid .
 
 ## FAQ
 ### Why did you not use goroutines?
-While `conn` is safe across goroutines, using multiple threads/goroutines would mess up the timing of responses. This project also would not benifit from parallelization. 
+While `conn` is safe across goroutines, using multiple threads/goroutines would mess up the timing of responses. This project also would not benifit from parallelization.
 
-### Why use the stats package? 
-Dealing with time.Duration can be painful because many of the built in methods like sort don't deal with it. Therefore it's easier to convert Durations and use a library. 
+### Why use the stats package?
+Dealing with time.Duration can be painful because many of the built in methods like sort don't deal with it. Therefore it's easier to convert Durations and use a library.
 
-### What is the keepalive option? 
-Passing in -keepalive attempts to use a single tcp connection for all http requests. This can be speedy, but can also cause problems when the server closes the connection on you early. Because my http is hacked together, this option reguarly fails. **Use at your own risk**. 
+### What is the keepalive option?
+Passing in -keepalive attempts to use a single tcp connection for all http requests. This can be speedy, but can also cause problems when the server closes the connection on you early. Because my http is hacked together, this option reguarly fails. **Use at your own risk**.
 
 
