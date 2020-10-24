@@ -13,6 +13,7 @@ Usage of ./httpprofiler:
   -verbose
         Print responses as they are recieved
 ```
+![bw.baileywickham.workers.dev](workers.png)
 
 ## Use
 Install the stats package:
