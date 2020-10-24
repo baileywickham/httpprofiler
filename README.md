@@ -5,7 +5,7 @@ Note, this project does not yet support https.
 ```
 Usage of ./httpprofiler:
   -keepalive
-        Attempt to use a keepalive connection to use the same TCP connection, fails on Connection: closed response
+        Attempt to use a keepalive connection to use the same TCP connection, fails reguarly
   -profile int
         Number of requests to send (default 2)
   -url string
