@@ -21,7 +21,7 @@ type Profile struct {
 }
 
 var _url = flag.String("url", "http://cloudflare.com", "URL to profile")
-var n = flag.Int("profile", 2, "Number of requests to send")
+var n = flag.Int("profile", 0, "Number of profile requests to send, if -1 then print the body and exit")
 var keepalive = flag.Bool("keepalive", false, "Attempt to use a keepalive request to use the same TCP connection, fails on Connection: closed response")
 var v = flag.Bool("verbose", false, "Print responses as they are recieved")
 
@@ -32,6 +32,23 @@ func parseURL(_url string) url.URL {
 		panic(err)
 	}
 	return *u
+}
+
+func printBody(u url.URL) {
+	fmt.Printf("Fetching %s\n", u.String())
+	conn, err := net.Dial("tcp", u.Hostname()+":"+u.Scheme)
+	defer conn.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	// Create a HTTP get request, true indicates the keepalive header should
+	// be included
+	request := createGetRequest(u, true)
+	fmt.Fprintf(conn, request)
+	rsp := readResponse(conn)
+	println(rsp.Body)
+
 }
 
 func startProfileKeepAlive(u url.URL) []Profile {
@@ -148,7 +165,11 @@ func main() {
 	flag.Parse()
 
 	u := parseURL(*_url)
-
+	if *n == 0 {
+		// print body mode
+		printBody(u)
+		return
+	}
 	if *keepalive {
 		evaluate(startProfileKeepAlive(u), u)
 	} else {
