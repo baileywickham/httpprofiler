@@ -1,6 +1,8 @@
 package main
 
-import "time"
+import (
+	"time"
+)
 
 func MinMaxDuration(array []time.Duration) (time.Duration, time.Duration) {
 	var max time.Duration = array[0]
