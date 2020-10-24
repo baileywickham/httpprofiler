@@ -66,7 +66,7 @@ func (r *HTTPRequest) String() string {
 func createGetRequest(u url.URL, keepAlive bool) string {
 	r := HTTPRequest{
 		HTTPMethod:     "GET",
-		RequestTarget:  u.RequestURI(), //url,
+		RequestTarget:  u.RequestURI(),
 		HTTPVersion:    "HTTP/1.0",
 		GeneralHeaders: fmt.Sprintf("Host: %s\n", u.Hostname()),
 		RequestHeaders: "",
@@ -76,7 +76,6 @@ func createGetRequest(u url.URL, keepAlive bool) string {
 	if keepAlive {
 		r.GeneralHeaders += "Connection: Keep-Alive"
 	}
-	fmt.Println(r.GeneralHeaders)
 	return r.String()
 }
 
