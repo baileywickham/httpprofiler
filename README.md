@@ -44,4 +44,7 @@ Dealing with time.Duration can be painful because many of the built in methods l
 ### What is the keepalive option?
 Passing in -keepalive attempts to use a single tcp connection for all http requests. This can be speedy, but can also cause problems when the server closes the connection on you early. Because my http is hacked together, this option reguarly fails. **Use at your own risk**.
 
+### Why are there no tests?
+Testing this program would be a little difficult. I could test that I am getting a response, and that it is well formatted, but this is testing the server as much as my program. I also don't really want to test the output, so I would have to rewrite to make the correct functions exposed which is more work than it's worth for this. 
+
 
