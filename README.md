@@ -45,18 +45,20 @@ Dealing with time.Duration can be painful because many of the built in methods l
 Passing in -keepalive attempts to use a single tcp connection for all http requests. This can be speedy, but can also cause problems when the server closes the connection on you early. Because my http is hacked together, this option reguarly fails. **Use at your own risk**.
 
 ### Why are there no tests?
-Testing this program would be a little difficult. I could test that I am getting a response, and that it is well formatted, but this is testing the server as much as my program. I also don't really want to test the output, so I would have to rewrite to make the correct functions exposed which is more work than it's worth for this. 
+Testing this program would be a little difficult. I could test that I am getting a response, and that it is well formatted, but this is testing the server as much as my program. I also don't really want to test the output, so I would have to rewrite to make the correct functions exposed which is more work than it's worth for this.
 
 ### Why does the size in the profile only include the body, not the headers?
-When looking at a response, I think the size should only really refer to the size of the body because the headers change with the request, or the method of which you are making the request. I don't think it makes sense to have `curl` and `httpprofiler` return different sizes on the same static webpage. 
+When looking at a response, I think the size should only really refer to the size of the body because the headers change with the request, or the method of which you are making the request. I don't think it makes sense to have `curl` and `httpprofiler` return different sizes on the same static webpage.
 
+### Why not follow 301 redirects
+The 301 redirects almost always redirects to https, which isn't yet supported.
 
 ## Findings
 ![cloudflare/example.com](cloudflare.png)
 
-Here we test against `cloudflare.com` and `example.com`. Looking at the cloudflare response you will see something that you will see often with this program: failure on a 301 response. This is because most of the modern internet forces redirects from http->https. This is a good thing! However, my program doesn't yet support https, and a 301 response is not a 2xx response, so it is counted as a failure. `example.com` on the otherhand does not redirect to https and returns as you would expect. This matches what you would expect from a profile. 
+Here we test against `cloudflare.com` and `example.com`. Looking at the cloudflare response you will see something that you will see often with this program: failure on a 301 response. This is because most of the modern internet forces redirects from http->https. This is a good thing! However, my program doesn't yet support https, and a 301 response is not a 2xx response, so it is counted as a failure. `example.com` on the otherhand does not redirect to https and returns as you would expect. This matches what you would expect from a profile.
 
-One thing that would be interesting to add would be a stddev mesaurement, to calculate for variation. 
+One thing that would be interesting to add would be a stddev mesaurement, to calculate for variation.
 
 Using mean times on 10 responses:
 - `google.com`:  43ms
