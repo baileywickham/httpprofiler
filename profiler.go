@@ -55,7 +55,8 @@ func startProfileKeepAlive(u url.URL) []Profile {
 	// profile with a single TCP request
 	profs := make([]Profile, *n)
 
-	// Open a tcp connection with the url requsted. Use http or https
+	// Open a tcp connection with the url requsted. Use http
+	// https is not currently supported
 	conn, err := net.Dial("tcp", u.Hostname()+":"+u.Scheme)
 	defer conn.Close()
 	if err != nil {
@@ -170,6 +171,7 @@ func main() {
 		printBody(u)
 		return
 	}
+	// Use a single TCP request
 	if *keepalive {
 		evaluate(startProfileKeepAlive(u), u)
 	} else {

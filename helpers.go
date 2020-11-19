@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Go needs generics for this case
 func MinMaxDuration(array []time.Duration) (time.Duration, time.Duration) {
 	var max time.Duration = array[0]
 	var min time.Duration = array[0]
